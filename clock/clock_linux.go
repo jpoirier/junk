@@ -33,6 +33,9 @@ var (
 	// system time (e.g., if the system administrator manually changes the clock),
 	// but is affected by the incremental adjustments performed by adjtime(3) and NTP.
 	Monotonic Clock = &clock{CLOCK_MONOTONIC}
+
+	// High-resolution per-process timer from the CPU.
+	Process Clock = &clock{CLOCK_PROCESS_CPUTIME_ID}
 )
 
 type clock struct {

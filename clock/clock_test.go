@@ -10,3 +10,19 @@ func TestClockMonotonic(t *testing.T) {
 		t.Fatal("time was zero, expecting non zero")
 	}
 }
+
+func TestClockRealtime(t *testing.T) {
+	now := Realtime.Now()
+	unixzero := time.Unix(0, 0)
+	if now == unixzero {
+		t.Fatal("time was zero, expecting non zero")
+	}
+}
+
+func TestClockProcess(t *testing.T) {
+	now := Process.Now()
+	unixzero := time.Unix(0, 0)
+	if now == unixzero {
+		t.Fatal("time was zero, expecting non zero")
+	}
+}
