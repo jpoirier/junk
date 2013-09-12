@@ -8,8 +8,11 @@ import (
 
 func main() {
 	t := time.NewTicker(2 * time.Second)
+	rt, mt := clock.Realtime.Now(), clock.Monotonic.Now()
 	for {
 		<-t.C
-		fmt.Printf("CLOCK_REALTIME: %v\t CLOCK_MONOTONIC: %v\n", clock.Realtime.Now(), clock.Monotonic.Now())
+		rt1, mt1 := clock.Realtime.Now(), clock.Monotonic.Now()
+		fmt.Printf("CLOCK_REALTIME: %v\t CLOCK_MONOTONIC: %v\n", rt1.Sub(rt), mt1.Sub(mt))
+		rt, mt = rt1, mt1
 	}
 }
