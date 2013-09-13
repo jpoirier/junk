@@ -21,8 +21,9 @@ const (
 	CLOCK_BOOTTIME_ALARM
 )
 
+// Available Clocks
 var (
-	// System-wide  clock  that measures real (i.e., wall-clock) time.
+	// System-wide clock that measures real (i.e., wall-clock) time.
 	// This clock is affected by discontinuous jumps in the system time (e.g., if
 	// the system administrator manually changes the clock), and by the incremental
 	// adjustments performed by adjtime(3) and NTP.
@@ -38,6 +39,12 @@ var (
 	Process Clock = &clock{CLOCK_PROCESS_CPUTIME_ID}
 )
 
+// Available Timers
+var (
+	// The amount of elapsed time since the bootup of this host.
+	Uptime Timer = &timer{clock: clock{CLOCK_BOOTTIME}}
+)
+
 type clock struct {
 	clockid uintptr
 }
@@ -47,4 +54,14 @@ func (c *clock) Now() time.Time {
 	syscall.Syscall(syscall.SYS_CLOCK_GETTIME, c.clockid, uintptr(unsafe.Pointer(&ts)), 0)
 	sec, nsec := ts.Unix()
 	return time.Unix(sec, nsec)
+}
+
+type timer struct {
+	clock
+}
+
+var epoch = time.Unix(0, 0)
+
+func (t *timer) Elapsed() time.Duration {
+	return t.Now().Sub(epoch)
 }

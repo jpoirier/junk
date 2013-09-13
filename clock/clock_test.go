@@ -26,3 +26,11 @@ func TestClockProcess(t *testing.T) {
 		t.Fatal("time was zero, expecting non zero")
 	}
 }
+
+func TestTimerUptime(t *testing.T) {
+	bt := Uptime.Elapsed()
+	if bt == 0 {
+		t.Fatal("time was zero, expecting non zero")
+	}
+	t.Log("Boottime", bt)
+}
